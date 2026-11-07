@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для тебя 💌</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffd1dc, #ff9aa2, #ffb7c5);
+    font-family: Georgia, 'Times New Roman', serif;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+  }
+  .card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 28px;
+    padding: 40px 28px;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(180, 40, 80, 0.3);
+    position: relative;
+    z-index: 2;
+  }
+  .heart { font-size: 64px; animation: beat 1.2s infinite; display: inline-block; }
+  @keyframes beat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+  h1 { color: #c2185b; font-size: 28px; margin: 16px 0 12px; }
+  p { color: #5d2a3c; font-size: 18px; line-height: 1.5; margin-bottom: 28px; }
+  .buttons { display: flex; gap: 18px; justify-content: center; align-items: center; min-height: 60px; }
+  button {
+    font-size: 20px;
+    padding: 14px 34px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.15s;
+  }
+  #yes { background: #e91e63; color: white; box-shadow: 0 6px 18px rgba(233,30,99,0.45); }
+  #yes:hover { transform: scale(1.08); }
+  #no { background: #eeeeee; color: #555; }
+  #no.run { position: fixed; z-index: 10; }
+  .confetti { position: fixed; top: -30px; font-size: 28px; animation: fall linear forwards; z-index: 1; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="heart">💖</div>
+    <h1 id="title">У меня для тебя признание</h1>
+    <p id="text">Ты делаешь мои дни светлее, а меня счастливее. Я давно хотел это сказать: ты мне очень нравишься, и я люблю тебя. Ты тоже меня любишь?</p>
+    <div class="buttons" id="buttons">
+      <button id="yes">Да 💕</button>
+      <button id="no">Нет</button>
+    </div>
+  </div>
+
+<script>
+  const yes = document.getElementById('yes');
+  const no = document.getElementById('no');
+
+  function runAway() {
+    no.classList.add('run');
+    const pad = 10;
+    const maxX = window.innerWidth - no.offsetWidth - pad;
+    const maxY = window.innerHeight - no.offsetHeight - pad;
+    no.style.left = Math.max(pad, Math.random() * maxX) + 'px';
+    no.style.top = Math.max(pad, Math.random() * maxY) + 'px';
+  }
+
+  no.addEventListener('mouseenter', runAway);
+  no.addEventListener('touchstart', function (e) { e.preventDefault(); runAway(); }, { passive: false });
+  no.addEventListener('click', function (e) { e.preventDefault(); runAway(); });
+
+  yes.addEventListener('click', function () {
+    document.getElementById('title').textContent = 'Ура! Я так и знал! 🎉';
+    document.getElementById('text').textContent = 'Теперь ты официально моя любовь. Обнимаю крепко!';
+    document.getElementById('buttons').style.display = 'none';
+    no.style.display = 'none';
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.textContent = ['💖','💕','💘','🌹','✨'][Math.floor(Math.random() * 5)];
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.animationDuration = (2 + Math.random() * 3) + 's';
+      c.style.animationDelay = (Math.random() * 1.5) + 's';
+      document.body.appendChild(c);
+    }
+  });
+</script>
+</body>
+</html>
